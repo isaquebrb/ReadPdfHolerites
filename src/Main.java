@@ -26,28 +26,43 @@ public class Main {
 			
 			String texto = pdfStripper.getText(pdfDocument);
 			
+			String cnpj = null, nome = null, salarioBase = null, salarioLiq = null, descontos = null, cargo = null, cargoInstituidor = null;
+			
 			System.out.print("Holerite ");
 			
 			if(texto.contains("Beneficiário Pensionista")) {
 				System.out.println("Pensionista");
+				
+				Matcher matcher = Pattern.compile("Cargo\\D*\\n(\\w*\\s\\w*)\\s", Pattern.DOTALL).matcher(texto);
+				
+				if(matcher.find()) {
+					cargoInstituidor = matcher.group(1).trim();				
+					System.out.println("Cargo: "+cargoInstituidor);
+				}
 			}else {
 				System.out.println("Servidor");
+				
+				Matcher matcher = Pattern.compile("Cargo.*\\d{1,9}\\w*\\s\\w*\\s\\w*\\s(\\w*\\s\\w*).*Cód", Pattern.DOTALL).matcher(texto);
+				
+				if(matcher.find()) {
+					cargo = matcher.group(1).trim();				
+					System.out.println("Cargo: "+cargo);
+				}
+				
 			}
 			
-			String cnpj = null, nome = null, salarioBase = null, salarioLiq = null, descontos = null;
-			
-			Matcher matcher = Pattern.compile("CPNJ(.*)Recibo", Pattern.DOTALL).matcher(texto);
-			
-			if(matcher.find()) {
-				cnpj = matcher.group(1).trim();				
-				System.out.println("CNPJ Empresa: "+cnpj);
-			}
-			
-			matcher = Pattern.compile("Nome\\D*\\d*\\s(\\w*\\s\\w*)", Pattern.DOTALL).matcher(texto);
+			Matcher matcher = Pattern.compile("Nome\\D*\\d*\\s(\\w*\\s\\w*)", Pattern.DOTALL).matcher(texto);
 			
 			if(matcher.find()) {
 				nome = matcher.group(1).trim();
 				System.out.println("Nome Funcionário: "+nome);
+			}
+			
+			matcher = Pattern.compile("CPNJ(.*)Recibo", Pattern.DOTALL).matcher(texto);
+				
+			if(matcher.find()) {
+				cnpj = matcher.group(1).trim();				
+				System.out.println("CNPJ Empresa: "+cnpj);
 			}
 			
 			matcher = Pattern.compile("Salário Base.*\\n(R\\$\\d{1,3}?\\.?\\d{1,3}\\,\\d{2})", Pattern.DOTALL).matcher(texto);
