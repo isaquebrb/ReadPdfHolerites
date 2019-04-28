@@ -6,27 +6,20 @@ public class Main {
     Arquivos arquivos = new Arquivos("C:\\Users\\Isaque\\eclipse-workspace\\Holerites\\files");
     for (File file : arquivos.GetArquivos()) {
       LeituraPdf pdfReader = new LeituraPdf(file);
-      RegexHolerite.setTexto(pdfReader.GetTexto());
+      CamposHolerite campos = new CamposHolerite(pdfReader.GetTexto());
       Holerites holerites = new Holerites();
-      holerites.setCnpj(RegexHolerite.GetCnpj());
-      holerites.setSalarioBase(RegexHolerite.GetSalarioBase());
-      holerites.setSalarioLiq(RegexHolerite.GetSalarioLiq());
-      holerites.setTotalDescontos(RegexHolerite.GetTotalDescontos());
-      if (RegexHolerite.getTexto().contains("Beneficiário Pensionista")) {
-    	  holerites.setTipoHolerite(TipoHolerite.PENSIONISTA);
+      campos.SalvarCampos(holerites);
+      if (holerites.getTipoHolerite() == TipoHolerite.PENSIONISTA) {
     	  HoleritePensionista holeritePen = new HoleritePensionista(holerites);
-    	  holeritePen.setCargoInstituidor(RegexHolerite.GetCargoInstituidor());    	  
-    	  holeritePen.setNome(RegexHolerite.GetNome());    	  
-          IPrintPensionista print = new PrintPensionista();
+    	  campos.SalvarCamposPensionista(holeritePen);
+    	  PrintPensionista print = new PrintPensionista();
           print.enviarMensagem("## Dados do Servidor ##");
           print.enviarMensagemHolerite(holeritePen);
         }
-        else if (RegexHolerite.getTexto().contains("Servidor")) {
-          holerites.setTipoHolerite(TipoHolerite.SERVIDOR);
+        else if (holerites.getTipoHolerite() == TipoHolerite.SERVIDOR) {
           HoleriteServidor holeriteServ = new HoleriteServidor(holerites);
-          holeriteServ.setCargo(RegexHolerite.GetCargo());
-          holeriteServ.setNome(RegexHolerite.GetNome());
-          IPrintServidor print = new PrintServidor();
+          campos.SalvarCamposServidor(holeriteServ);
+          PrintServidor print = new PrintServidor();
           print.enviarMensagem("## Dados do Pensionista ##");
           print.enviarMensagemHolerite(holeriteServ);
         }
