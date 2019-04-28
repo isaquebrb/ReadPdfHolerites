@@ -1,5 +1,5 @@
 
-public class PrintHoleriteServidor implements Print {
+public class PrintServidor implements IPrintServidor {
 
 	@Override
 	public void enviarMensagem(String mensagem) {
@@ -15,12 +15,7 @@ public class PrintHoleriteServidor implements Print {
 		System.out.println("Salário Base: " + holerite.getSalarioBase());
 		System.out.println("Salário Liquído: " + holerite.getSalarioLiq());
 		System.out.println("Total Descontos: " + holerite.getTotalDescontos());
-
-	}
-
-	@Override
-	public void enviarMensagemHolerite(HoleritePensionista holerite) {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

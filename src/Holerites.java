@@ -38,7 +38,7 @@ public class Holerites {
 		this.totalDescontos = FormatStringToDouble(totalDescontos);
 
 		if (this.totalDescontos != (this.getSalarioBase() - this.getSalarioLiq())) {
-			Print print = new PrintHoleriteServidor();
+			IPrint print = new PrintServidor();
 			print.enviarMensagem(
 					"O desconto capturado não bate com o valor do desconto calculado (salário base - salário liquido)");
 			this.totalDescontos = 0;

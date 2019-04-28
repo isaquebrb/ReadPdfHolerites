@@ -17,7 +17,7 @@ public class Main {
     	  HoleritePensionista holeritePen = new HoleritePensionista(holerites);
     	  holeritePen.setCargoInstituidor(RegexHolerite.GetCargoInstituidor());    	  
     	  holeritePen.setNome(RegexHolerite.GetNome());    	  
-          Print print = new PrintHoleritePensionista();
+          IPrintPensionista print = new PrintPensionista();
           print.enviarMensagem("## Dados do Servidor ##");
           print.enviarMensagemHolerite(holeritePen);
         }
@@ -26,10 +26,10 @@ public class Main {
           HoleriteServidor holeriteServ = new HoleriteServidor(holerites);
           holeriteServ.setCargo(RegexHolerite.GetCargo());
           holeriteServ.setNome(RegexHolerite.GetNome());
-          Print print = new PrintHoleriteServidor();
+          IPrintServidor print = new PrintServidor();
           print.enviarMensagem("## Dados do Pensionista ##");
           print.enviarMensagemHolerite(holeriteServ);
-        }      
+        }
     }
   }
 }
