@@ -41,8 +41,9 @@ public class Holerite {
     this.totalDescontos = FormatStringToDouble(totalDescontos);
     
     if(this.totalDescontos != (this.getSalarioBase() - this.getSalarioLiq())) {
-      //Print.ImprimirMensagem("O desconto capturado não bate com o valor do desconto calculado (salário base - salário liquido)");
-      this.totalDescontos = 0;
+    	Print print = new PrintHoleriteServidor();
+    	print.enviarMensagem("O desconto capturado não bate com o valor do desconto calculado (salário base - salário liquido)");
+    	this.totalDescontos = 0;
     }
   }
   public String getCargo() {
