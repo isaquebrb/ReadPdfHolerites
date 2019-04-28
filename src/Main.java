@@ -6,28 +6,30 @@ public class Main {
     Arquivos arquivos = new Arquivos("C:\\Users\\Isaque\\eclipse-workspace\\Holerites\\files");
     for (File file : arquivos.GetArquivos()) {
       LeituraPdf pdfReader = new LeituraPdf(file);
-      Holerite holerite = new Holerite();
       RegexHolerite.setTexto(pdfReader.GetTexto());
-      holerite.setNome(RegexHolerite.GetNome());
-      holerite.setCnpj(RegexHolerite.GetCnpj());
-      holerite.setSalarioBase(RegexHolerite.GetSalarioBase());
-      holerite.setSalarioLiq(RegexHolerite.GetSalarioLiq());
-      holerite.setTotalDescontos(RegexHolerite.GetTotalDescontos());
+      Holerites holerites = new Holerites();
+      holerites.setCnpj(RegexHolerite.GetCnpj());
+      holerites.setSalarioBase(RegexHolerite.GetSalarioBase());
+      holerites.setSalarioLiq(RegexHolerite.GetSalarioLiq());
+      holerites.setTotalDescontos(RegexHolerite.GetTotalDescontos());
       if (RegexHolerite.getTexto().contains("Beneficiário Pensionista")) {
-          holerite.setCargoInstituidor(RegexHolerite.GetCargoInstituidor());
-          holerite.setTipoHolerite(TipoHolerite.PENSIONISTA);
+    	  holerites.setTipoHolerite(TipoHolerite.PENSIONISTA);
+    	  HoleritePensionista holeritePen = new HoleritePensionista(holerites);
+    	  holeritePen.setCargoInstituidor(RegexHolerite.GetCargoInstituidor());    	  
+    	  holeritePen.setNome(RegexHolerite.GetNome());    	  
           Print print = new PrintHoleritePensionista();
           print.enviarMensagem("## Dados do Servidor ##");
-          print.enviarMensagemHolerite(holerite);
+          print.enviarMensagemHolerite(holeritePen);
         }
         else if (RegexHolerite.getTexto().contains("Servidor")) {
-          holerite.setTipoHolerite(TipoHolerite.SERVIDOR);
-          holerite.setCargo(RegexHolerite.GetCargo());
+          holerites.setTipoHolerite(TipoHolerite.SERVIDOR);
+          HoleriteServidor holeriteServ = new HoleriteServidor(holerites);
+          holeriteServ.setCargo(RegexHolerite.GetCargo());
+          holeriteServ.setNome(RegexHolerite.GetNome());
           Print print = new PrintHoleriteServidor();
-          print.enviarMensagemHolerite(holerite);
           print.enviarMensagem("## Dados do Pensionista ##");
-        }
-      
+          print.enviarMensagemHolerite(holeriteServ);
+        }      
     }
   }
 }
